@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CloudDriveRAG</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+  <!-- Top Nav -->
+  <nav class="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between shadow-sm">
+    <div class="flex items-center gap-3">
+      <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/>
+      </svg>
+      <h1 class="text-xl font-bold text-gray-800">CloudDriveRAG</h1>
+    </div>
+    <div class="flex items-center gap-4">
+      <div id="connection-status" class="flex items-center gap-2 text-sm text-gray-500">
+        <span id="status-dot" class="w-2.5 h-2.5 rounded-full bg-red-400"></span>
+        <span id="status-text">Not connected</span>
+      </div>
+      <button id="settings-btn" class="p-2 rounded-lg hover:bg-gray-100 transition" title="Settings">
+        <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Tabs -->
+  <div class="bg-white border-b border-gray-200 px-6">
+    <div class="flex gap-1">
+      <button class="tab-btn active px-4 py-3 text-sm font-medium border-b-2 border-blue-600 text-blue-600" data-tab="drive">
+        Drive Browser
+      </button>
+      <button class="tab-btn px-4 py-3 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700" data-tab="chat">
+        Chat
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="flex-1 flex flex-col">
+    <!-- Drive Browser Tab -->
+    <div id="tab-drive" class="tab-content flex-1 p-6">
+      <!-- Connect Button (shown when not connected) -->
+      <div id="connect-panel" class="flex flex-col items-center justify-center py-20">
+        <svg class="w-16 h-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/>
+        </svg>
+        <p class="text-gray-500 mb-4">Connect your Google Drive to get started</p>
+        <a id="connect-btn" href="/api/auth/google" class="bg-blue-600 text-white px-6 py-2.5 rounded-lg hover:bg-blue-700 transition font-medium">
+          Connect to Google Drive
+        </a>
+      </div>
+
+      <!-- Drive Browser (shown when connected) -->
+      <div id="drive-panel" class="hidden">
+        <!-- Breadcrumb -->
+        <div class="flex items-center gap-2 mb-4">
+          <nav id="breadcrumb" class="flex items-center gap-1 text-sm text-gray-600">
+            <button class="breadcrumb-item hover:text-blue-600 font-medium" data-id="root">My Drive</button>
+          </nav>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-3">
+            <label class="flex items-center gap-2 text-sm">
+              <input type="checkbox" id="select-all" class="rounded border-gray-300">
+              <span class="text-gray-600">Select All Files</span>
+            </label>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="ingest-btn" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+              Ingest Selected
+            </button>
+            <button id="reset-kb-btn" class="bg-red-50 text-red-600 px-4 py-2 rounded-lg hover:bg-red-100 transition text-sm font-medium border border-red-200">
+              Reset Knowledge Base
+            </button>
+          </div>
+        </div>
+
+        <!-- Folders -->
+        <div id="folders-list" class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4"></div>
+
+        <!-- Files -->
+        <div id="files-list" class="space-y-2"></div>
+
+        <!-- Ingestion Progress -->
+        <div id="ingest-progress" class="hidden mt-6 bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+          <h3 class="font-semibold text-gray-800 mb-3">Ingestion Progress</h3>
+          <div id="progress-list" class="space-y-2 max-h-64 overflow-y-auto"></div>
+          <div id="progress-summary" class="mt-3 pt-3 border-t border-gray-100 text-sm text-gray-600 hidden"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Tab -->
+    <div id="tab-chat" class="tab-content hidden flex-1 flex flex-col">
+      <!-- Chat LLM Provider Selector Bar -->
+      <div class="bg-white border-b border-gray-200 px-6 py-2.5 flex items-center gap-4">
+        <span class="text-xs font-medium text-gray-500 uppercase tracking-wide">LLM Model:</span>
+        <div id="chat-provider-selector" class="flex items-center gap-1.5">
+          <button class="chat-provider-btn px-3 py-1.5 rounded-full text-xs font-medium transition border" data-provider="openai">
+            <span class="inline-block w-2 h-2 rounded-full bg-green-500 mr-1.5" id="chat-openai-dot"></span>OpenAI
+          </button>
+          <button class="chat-provider-btn px-3 py-1.5 rounded-full text-xs font-medium transition border" data-provider="gemini">
+            <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mr-1.5" id="chat-gemini-dot"></span>Gemini
+          </button>
+          <button class="chat-provider-btn px-3 py-1.5 rounded-full text-xs font-medium transition border" data-provider="ollama">
+            <span class="inline-block w-2 h-2 rounded-full bg-purple-500 mr-1.5" id="chat-ollama-dot"></span>Ollama
+          </button>
+        </div>
+        <span id="chat-provider-info" class="ml-auto text-xs text-gray-400"></span>
+      </div>
+
+      <div id="chat-messages" class="flex-1 overflow-y-auto p-6 space-y-4">
+        <div class="flex flex-col items-center justify-center h-full text-gray-400">
+          <svg class="w-12 h-12 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+          </svg>
+          <p>Ask questions about your ingested documents</p>
+        </div>
+      </div>
+      <div class="border-t border-gray-200 bg-white p-4">
+        <div class="max-w-4xl mx-auto flex gap-3">
+          <input id="chat-input" type="text" placeholder="Ask a question about your documents..."
+            class="flex-1 border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+          <button id="chat-send" class="bg-blue-600 text-white px-5 py-2.5 rounded-lg hover:bg-blue-700 transition text-sm font-medium disabled:opacity-50" disabled>
+            Send
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Settings Modal -->
+  <div id="settings-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-md mx-4 p-6">
+      <div class="flex items-center justify-between mb-5">
+        <h2 class="text-lg font-semibold text-gray-800">Settings</h2>
+        <button id="settings-close" class="p-1 rounded hover:bg-gray-100">
+          <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">LLM Provider</label>
+          <div id="provider-options" class="space-y-2">
+            <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition">
+              <input type="radio" name="provider" value="openai" class="text-blue-600">
+              <div>
+                <div class="font-medium text-sm">OpenAI</div>
+                <div class="text-xs text-gray-500">GPT-4o-mini + text-embedding-3-small</div>
+              </div>
+              <span id="openai-status" class="ml-auto text-xs px-2 py-0.5 rounded-full"></span>
+            </label>
+            <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition">
+              <input type="radio" name="provider" value="gemini" class="text-blue-600">
+              <div>
+                <div class="font-medium text-sm">Gemini</div>
+                <div class="text-xs text-gray-500">Gemini 2.0 Flash + text-embedding-004</div>
+              </div>
+              <span id="gemini-status" class="ml-auto text-xs px-2 py-0.5 rounded-full"></span>
+            </label>
+            <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition">
+              <input type="radio" name="provider" value="ollama" class="text-blue-600">
+              <div>
+                <div class="font-medium text-sm">Ollama (Local)</div>
+                <div class="text-xs text-gray-500">nomic-embed-text + configurable chat model</div>
+              </div>
+              <span id="ollama-status" class="ml-auto text-xs px-2 py-0.5 rounded-full"></span>
+            </label>
+          </div>
+        </div>
+        <button id="save-provider" class="w-full bg-blue-600 text-white py-2.5 rounded-lg hover:bg-blue-700 transition font-medium text-sm">
+          Save Settings
+        </button>
+        <div class="flex items-center gap-2">
+          <button id="disconnect-btn" class="w-full text-red-600 py-2 rounded-lg hover:bg-red-50 transition text-sm border border-red-200">
+            Disconnect Google Drive
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/settings.js"></script>
+  <script src="/js/drive.js"></script>
+  <script src="/js/chat.js"></script>
+</body>
+</html>
