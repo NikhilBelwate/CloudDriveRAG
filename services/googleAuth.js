@@ -1,10 +1,8 @@
 const { google } = require('googleapis');
 const { config } = require('../config');
+const settingsStore = require('./settingsStore');
 
 const SCOPES = ['https://www.googleapis.com/auth/drive.readonly'];
-
-// In-memory token store keyed by session ID
-const tokenStore = new Map();
 
 function createOAuth2Client() {
   return new google.auth.OAuth2(
@@ -29,29 +27,29 @@ async function getTokensFromCode(code) {
   return tokens;
 }
 
-function storeTokens(sessionId, tokens) {
-  tokenStore.set(sessionId, tokens);
+function storeTokens(tokens) {
+  settingsStore.saveTokens(tokens);
 }
 
-function getTokens(sessionId) {
-  return tokenStore.get(sessionId);
+function getTokens() {
+  return settingsStore.loadTokens();
 }
 
-function clearTokens(sessionId) {
-  tokenStore.delete(sessionId);
+function clearTokens() {
+  settingsStore.clearTokens();
 }
 
-function getAuthenticatedClient(sessionId) {
-  const tokens = tokenStore.get(sessionId);
+function getAuthenticatedClient() {
+  const tokens = getTokens();
   if (!tokens) return null;
 
   const client = createOAuth2Client();
   client.setCredentials(tokens);
 
-  // Auto-refresh tokens
+  // Auto-refresh and persist updated tokens
   client.on('tokens', (newTokens) => {
-    const existing = tokenStore.get(sessionId);
-    tokenStore.set(sessionId, { ...existing, ...newTokens });
+    const existing = getTokens() || {};
+    storeTokens({ ...existing, ...newTokens });
   });
 
   return client;

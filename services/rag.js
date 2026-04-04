@@ -1,6 +1,6 @@
 const { embed, chat } = require('./embedding');
 const vectorStore = require('./vectorStore');
-const { config } = require('../config');
+const { getQdrantConfig } = require('../config');
 
 const SYSTEM_PROMPT = `You are a helpful assistant that answers questions based on the provided context from documents.
 
@@ -12,7 +12,7 @@ Rules:
 - Format your response with clear structure when appropriate.`;
 
 async function query(question, providerName, topK = 5) {
-  const collectionName = config.qdrant.collection;
+  const collectionName = getQdrantConfig().collection;
 
   // Embed the question
   const [queryVector] = await embed([question], providerName);

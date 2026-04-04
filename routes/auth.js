@@ -12,7 +12,7 @@ router.get('/google/callback', async (req, res) => {
     if (!code) return res.status(400).send('Missing authorization code');
 
     const tokens = await googleAuth.getTokensFromCode(code);
-    googleAuth.storeTokens(req.session.id, tokens);
+    googleAuth.storeTokens(tokens);
     res.redirect('/?connected=true');
   } catch (err) {
     console.error('OAuth callback error:', err);
@@ -21,12 +21,13 @@ router.get('/google/callback', async (req, res) => {
 });
 
 router.get('/status', (req, res) => {
-  const tokens = googleAuth.getTokens(req.session.id);
+  const tokens = googleAuth.getTokens();
   res.json({ connected: !!tokens });
 });
 
-router.post('/disconnect', (req, res) => {
-  googleAuth.clearTokens(req.session.id);
+router.post('/logout', (req, res) => {
+  googleAuth.clearTokens();
+  req.session.destroy(() => {});
   res.json({ success: true });
 });
 

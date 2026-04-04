@@ -1,14 +1,32 @@
 const { QdrantClient } = require('@qdrant/js-client-rest');
 const { v4: uuidv4 } = require('uuid');
-const { config } = require('../config');
+const { getQdrantConfig } = require('../config');
 
 let client = null;
+let lastUrl = '';
+let lastToken = '';
 
 function getClient() {
-  if (!client) {
-    client = new QdrantClient({ url: config.qdrant.url });
+  const qdrantCfg = getQdrantConfig();
+  const url = qdrantCfg.url;
+  const token = qdrantCfg.token || '';
+
+  // Recreate client if connection settings changed
+  if (!client || url !== lastUrl || token !== lastToken) {
+    const opts = { url };
+    if (token) {
+      opts.apiKey = token;
+    }
+    client = new QdrantClient(opts);
+    lastUrl = url;
+    lastToken = token;
+    console.log(`[Qdrant] Client created for ${url}${token ? ' (with token)' : ''}`);
   }
   return client;
+}
+
+function getCollectionName() {
+  return getQdrantConfig().collection;
 }
 
 async function ensureCollection(name, dimensions) {
@@ -22,10 +40,7 @@ async function ensureCollection(name, dimensions) {
       await qdrant.deleteCollection(name);
       console.log(`[Qdrant] Deleted old collection "${name}"`);
       await qdrant.createCollection(name, {
-        vectors: {
-          size: dimensions,
-          distance: 'Cosine',
-        },
+        vectors: { size: dimensions, distance: 'Cosine' },
       });
       console.log(`[Qdrant] Created new collection "${name}" with dimension ${dimensions}`);
       return { exists: false, recreated: true };
@@ -33,12 +48,8 @@ async function ensureCollection(name, dimensions) {
     console.log(`[Qdrant] Collection "${name}" exists with correct dimension ${dimensions}`);
     return { exists: true, dimensionMismatch: false };
   } catch (err) {
-    // Collection doesn't exist, create it
     await qdrant.createCollection(name, {
-      vectors: {
-        size: dimensions,
-        distance: 'Cosine',
-      },
+      vectors: { size: dimensions, distance: 'Cosine' },
     });
     console.log(`[Qdrant] Created Qdrant collection "${name}" with dimension ${dimensions}`);
     return { exists: false, dimensionMismatch: false };
@@ -105,4 +116,14 @@ async function getCollectionInfo(name) {
   }
 }
 
-module.exports = { ensureCollection, upsertPoints, search, deleteCollection, getCollectionInfo };
+async function testConnection() {
+  try {
+    const qdrant = getClient();
+    const collections = await qdrant.getCollections();
+    return { success: true, collections: collections.collections.length };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+}
+
+module.exports = { ensureCollection, upsertPoints, search, deleteCollection, getCollectionInfo, getCollectionName, testConnection };

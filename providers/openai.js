@@ -1,16 +1,20 @@
 const OpenAI = require('openai');
-const { config } = require('../config');
+const { getOpenAIKey } = require('../config');
 
 const EMBEDDING_MODEL = 'text-embedding-3-small';
 const CHAT_MODEL = 'gpt-4o-mini';
 const DIMENSIONS = 1536;
 
 let client = null;
+let lastKey = '';
 
 function getClient() {
-  if (!client) {
-    if (!config.openai.apiKey) throw new Error('OPENAI_API_KEY not configured');
-    client = new OpenAI({ apiKey: config.openai.apiKey });
+  const apiKey = getOpenAIKey();
+  if (!apiKey) throw new Error('OpenAI API Key not configured. Please set it in Settings.');
+  // Recreate client if key changed
+  if (!client || apiKey !== lastKey) {
+    client = new OpenAI({ apiKey });
+    lastKey = apiKey;
   }
   return client;
 }

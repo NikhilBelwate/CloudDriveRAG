@@ -1,16 +1,20 @@
 const { GoogleGenerativeAI } = require('@google/generative-ai');
-const { config } = require('../config');
+const { getGeminiKey } = require('../config');
 
 const EMBEDDING_MODEL = 'gemini-embedding-001';
-const CHAT_MODEL = 'gemini-2.0-flash';
+const CHAT_MODEL = 'gemini-2.5-flash';
 const DIMENSIONS = 3072;
 
 let genAI = null;
+let lastKey = '';
 
 function getGenAI() {
-  if (!genAI) {
-    if (!config.gemini.apiKey) throw new Error('GEMINI_API_KEY not configured');
-    genAI = new GoogleGenerativeAI(config.gemini.apiKey);
+  const apiKey = getGeminiKey();
+  if (!apiKey) throw new Error('Gemini API Key not configured. Please set it in Settings.');
+  // Recreate client if key changed
+  if (!genAI || apiKey !== lastKey) {
+    genAI = new GoogleGenerativeAI(apiKey);
+    lastKey = apiKey;
   }
   return genAI;
 }
@@ -24,7 +28,6 @@ async function embed(texts) {
   for (let i = 0; i < texts.length; i += batchSize) {
     const batch = texts.slice(i, i + batchSize);
 
-    // Try batch first, fall back to one-by-one
     try {
       const result = await model.batchEmbedContents({
         requests: batch.map(text => ({
@@ -36,7 +39,6 @@ async function embed(texts) {
       }
     } catch (batchErr) {
       console.log('Batch embed failed, falling back to single embed:', batchErr.message);
-      // Fallback: embed one at a time
       for (const text of batch) {
         const result = await model.embedContent(text);
         allEmbeddings.push(result.embedding.values);

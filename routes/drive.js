@@ -4,7 +4,7 @@ const googleDrive = require('../services/googleDrive');
 
 // Auth middleware
 function requireAuth(req, res, next) {
-  const client = googleAuth.getAuthenticatedClient(req.session.id);
+  const client = googleAuth.getAuthenticatedClient();
   if (!client) return res.status(401).json({ error: 'Not connected to Google Drive' });
   req.driveClient = client;
   next();

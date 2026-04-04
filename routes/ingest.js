@@ -7,12 +7,12 @@ const { parseFile } = require('../services/parser');
 const { chunkText } = require('../services/chunker');
 const { embed, getDimensions } = require('../services/embedding');
 const vectorStore = require('../services/vectorStore');
-const { config } = require('../config');
+const { getQdrantConfig } = require('../config');
 
 const tempDir = path.join(__dirname, '..', 'temp');
 
 router.post('/folder', async (req, res) => {
-  const client = googleAuth.getAuthenticatedClient(req.session.id);
+  const client = googleAuth.getAuthenticatedClient();
   if (!client) return res.status(401).json({ error: 'Not connected to Google Drive' });
 
   const { folderId, fileIds, provider } = req.body;
@@ -35,7 +35,7 @@ router.post('/folder', async (req, res) => {
     const dimensions = getDimensions(provider);
     console.log(`[Ingest] Provider: ${provider}, Dimensions: ${dimensions}`);
 
-    const collectionResult = await vectorStore.ensureCollection(config.qdrant.collection, dimensions);
+    const collectionResult = await vectorStore.ensureCollection(getQdrantConfig().collection, dimensions);
     console.log(`[Ingest] Collection result:`, collectionResult);
 
     if (collectionResult.recreated) {
@@ -111,7 +111,7 @@ router.post('/folder', async (req, res) => {
           chunkIndex: idx,
           fileId: file.id,
         }));
-        await vectorStore.upsertPoints(config.qdrant.collection, items);
+        await vectorStore.upsertPoints(getQdrantConfig().collection, items);
         console.log(`[Ingest] Upserted ${items.length} points for ${file.name}`);
 
         totalChunks += chunks.length;
@@ -141,7 +141,7 @@ router.post('/folder', async (req, res) => {
 
 router.delete('/collection', async (req, res) => {
   try {
-    await vectorStore.deleteCollection(config.qdrant.collection);
+    await vectorStore.deleteCollection(getQdrantConfig().collection);
     res.json({ success: true, message: 'Knowledge base reset successfully' });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -150,7 +150,7 @@ router.delete('/collection', async (req, res) => {
 
 router.get('/status', async (req, res) => {
   try {
-    const info = await vectorStore.getCollectionInfo(config.qdrant.collection);
+    const info = await vectorStore.getCollectionInfo(getQdrantConfig().collection);
     res.json(info);
   } catch (err) {
     res.json({ exists: false, error: err.message });

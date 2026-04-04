@@ -7,31 +7,47 @@ const config = {
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     redirectUri: process.env.GOOGLE_REDIRECT_URI || 'http://localhost:3000/api/auth/google/callback',
   },
-  openai: {
-    apiKey: process.env.OPENAI_API_KEY,
-  },
-  gemini: {
-    apiKey: process.env.GEMINI_API_KEY,
-  },
   ollama: {
     baseUrl: process.env.OLLAMA_BASE_URL || 'http://localhost:11434',
     chatModel: process.env.OLLAMA_CHAT_MODEL || 'llama3',
-  },
-  qdrant: {
-    url: process.env.QDRANT_URL || 'http://localhost:6333',
-    collection: process.env.QDRANT_COLLECTION || 'clouddrive_rag',
   },
   session: {
     secret: process.env.SESSION_SECRET || 'clouddrive-rag-secret-change-me',
   },
 };
 
-function getAvailableProviders() {
+// Dynamic getters that read from settingsStore at call time
+function getOpenAIKey() {
+  const { loadSettings } = require('../services/settingsStore');
+  return loadSettings().openaiApiKey || process.env.OPENAI_API_KEY || '';
+}
+
+function getGeminiKey() {
+  const { loadSettings } = require('../services/settingsStore');
+  return loadSettings().geminiApiKey || process.env.GEMINI_API_KEY || '';
+}
+
+function getQdrantConfig() {
+  const { loadSettings } = require('../services/settingsStore');
+  const settings = loadSettings();
   return {
-    openai: !!config.openai.apiKey,
-    gemini: !!config.gemini.apiKey,
-    ollama: true, // Ollama is local, always "available" if running
+    url: settings.qdrantUrl || process.env.QDRANT_URL || 'http://localhost:6333',
+    collection: settings.qdrantCollection || process.env.QDRANT_COLLECTION || 'clouddrive_rag',
+    token: settings.qdrantToken || process.env.QDRANT_TOKEN || '',
   };
 }
 
-module.exports = { config, getAvailableProviders };
+function getActiveProvider() {
+  const { loadSettings } = require('../services/settingsStore');
+  return loadSettings().provider || 'ollama';
+}
+
+function getAvailableProviders() {
+  return {
+    openai: !!getOpenAIKey(),
+    gemini: !!getGeminiKey(),
+    ollama: true,
+  };
+}
+
+module.exports = { config, getAvailableProviders, getOpenAIKey, getGeminiKey, getQdrantConfig, getActiveProvider };

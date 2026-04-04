@@ -1,0 +1,8 @@
+{
+  "provider": "gemini",
+  "openaiApiKey": "",
+  "geminiApiKey": "",
+  "qdrantUrl": "",
+  "qdrantCollection": "",
+  "qdrantToken": ""
+}
