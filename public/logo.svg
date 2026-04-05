@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" width="200" height="80">
+  <!-- Spiral circles -->
+  <circle cx="30" cy="40" r="24" fill="none" stroke="#0088CC" stroke-width="3"/>
+  <circle cx="30" cy="40" r="18" fill="none" stroke="#0088CC" stroke-width="3"/>
+  <circle cx="30" cy="40" r="12" fill="none" stroke="#0088CC" stroke-width="3"/>
+  <circle cx="30" cy="40" r="6" fill="#0088CC"/>
+
+  <!-- Text: Omega-X -->
+  <text x="65" y="52" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#0088CC">
+    omega-x
+  </text>
+</svg>
