@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy - CloudDriveRAG</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif; }
+    .prose { max-width: 900px; }
+    h2 { margin-top: 2rem; margin-bottom: 1rem; }
+    h3 { margin-top: 1.5rem; margin-bottom: 0.75rem; }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <nav class="bg-white border-b border-gray-200 shadow-sm">
+    <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/>
+        </svg>
+        <h1 class="text-xl font-bold text-gray-800">CloudDriveRAG</h1>
+      </div>
+      <a href="/" class="text-blue-600 hover:text-blue-700 font-medium">Back to App</a>
+    </div>
+  </nav>
+
+  <main class="max-w-4xl mx-auto px-6 py-12">
+    <div class="prose">
+      <h1 class="text-3xl font-bold mb-2 text-gray-900">Privacy Policy</h1>
+      <p class="text-gray-600 mb-8">Last Updated: April 2, 2026</p>
+
+      <h2 class="text-2xl font-bold text-gray-800">1. Introduction</h2>
+      <p class="text-gray-700 mb-4">
+        CloudDriveRAG ("Application," "we," "us," or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our Application.
+      </p>
+      <p class="text-gray-700 mb-6">
+        Please read this Privacy Policy carefully. If you do not agree with our policies and practices, please do not use our Application.
+      </p>
+
+      <h2 class="text-2xl font-bold text-gray-800">2. Information We Collect</h2>
+
+      <h3 class="text-xl font-semibold text-gray-800">2.1 Google Drive Access</h3>
+      <ul class="list-disc list-inside text-gray-700 mb-4 space-y-2">
+        <li>When you authorize CloudDriveRAG to access your Google Drive, we obtain OAuth 2.0 tokens to read and download your documents (PDFs, Excel files, Word documents)</li>
+        <li>We never store your Google password or full authentication credentials</li>
+        <li>Your OAuth tokens are stored securely in local session storage and encrypted data files</li>
+        <li>We only access files you explicitly select for ingestion into the knowledge base</li>
+      </ul>
+
+      <h3 class="text-xl font-semibold text-gray-800">2.2 Document Content</h3>
+      <ul class="list-disc list-inside text-gray-700 mb-4 space-y-2">
+        <li>When you ingest documents, we extract and process text content from your files</li>
+        <li>This text is chunked, converted to vector embeddings, and stored in Qdrant vector database</li>
+        <li>Document embeddings enable semantic search functionality for the chatbot feature</li>
+        <li>Original files remain in your Google Drive and are not stored on our servers</li>
+      </ul>
+
+      <h3 class="text-xl font-semibold text-gray-800">2.3 Configuration Data</h3>
+      <ul class="list-disc list-inside text-gray-700 mb-4 space-y-2">
+        <li><strong>LLM API Keys:</strong> OpenAI and Gemini API keys that you provide are stored locally in encrypted configuration files</li>
+        <li><strong>Qdrant Database Settings:</strong> URL, collection name, and optional authentication tokens</li>
+        <li><strong>User Preferences:</strong> Selected LLM provider, application settings</li>
+      </ul>
+
+      <h3 class="text-xl font-semibold text-gray-800">2.4 Chat Queries and Responses</h3>
+      <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+        <li>Chat queries and LLM responses are processed in real-time through the selected LLM provider (OpenAI, Gemini, or local Ollama)</li>
+        <li>These interactions may be subject to the privacy policies of the respective LLM providers</li>
+        <li>We do not log or store chat history by default</li>
+      </ul>
+
+      <h2 class="text-2xl font-bold text-gray-800">3. How We Use Your Information</h2>
+      <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+        <li><strong>Document Processing:</strong> To extract text, create embeddings, and enable semantic search functionality</li>
+        <li><strong>Knowledge Base Management:</strong> To store vector embeddings in Qdrant for RAG (Retrieval-Augmented Generation) operations</li>
+        <li><strong>LLM Integration:</strong> To send queries and context to language models for generating contextual responses</li>
+        <li><strong>Application Functionality:</strong> To provide the core RAG chatbot experience you authorize</li>
+        <li><strong>Authentication:</strong> To maintain secure access to your Google Drive and manage sessions</li>
+      </ul>
+
+      <h2 class="text-2xl font-bold text-gray-800">4. Data Storage and Security</h2>
+
+      <h3 class="text-xl font-semibold text-gray-800">4.1 Local Storage</h3>
+      <p class="text-gray-700 mb-4">
+        CloudDriveRAG is designed to run locally on your machine. Your data is stored in:
+      </p>
+      <ul class="list-disc list-inside text-gray-700 mb-4 space-y-2">
+        <li>Local file system (configuration files with API keys and settings)</li>
+        <li>Qdrant vector database (can be local or remote as configured)</li>
+        <li>Browser session storage (temporary authentication tokens)</li>
+      </ul>
+
+      <h3 class="text-xl font-semibold text-gray-800">4.2 Encryption and Protection</h3>
+      <ul class="list-disc list-inside text-gray-700 mb-4 space-y-2">
+        <li>API keys are stored in plain text in local configuration files. We recommend securing your deployment appropriately</li>
+        <li>OAuth tokens are persisted across sessions but do not include your Google password</li>
+        <li>All communication with external services (Google Drive, LLM providers, Qdrant) uses HTTPS/TLS encryption</li>
+      </ul>
+
+      <h3 class="text-xl font-semibold text-gray-800">4.3 Your Responsibility</h3>
+      <p class="text-gray-700 mb-6">
+        As a self-hosted application, you are responsible for securing your deployment, including protecting API keys, securing your Qdrant database, and controlling access to your instance.
+      </p>
+
+      <h2 class="text-2xl font-bold text-gray-800">5. Third-Party Services</h2>
+
+      <h3 class="text-xl font-semibold text-gray-800">5.1 Google Drive API</h3>
+      <p class="text-gray-700 mb-4">
+        We use Google Drive API to access your documents. Your use is subject to <a href="https://policies.google.com/privacy" target="_blank" class="text-blue-600 hover:underline">Google's Privacy Policy</a>.
+      </p>
+
+      <h3 class="text-xl font-semibold text-gray-800">5.2 LLM Providers</h3>
+      <ul class="list-disc list-inside text-gray-700 mb-4 space-y-2">
+        <li><strong>OpenAI:</strong> When you use OpenAI's models, text is sent to OpenAI's servers. See <a href="https://openai.com/privacy" target="_blank" class="text-blue-600 hover:underline">OpenAI's Privacy Policy</a></li>
+        <li><strong>Google Gemini:</strong> When you use Gemini, text is sent to Google's servers. See <a href="https://policies.google.com/privacy" target="_blank" class="text-blue-600 hover:underline">Google's Privacy Policy</a></li>
+        <li><strong>Ollama (Local):</strong> When using local Ollama, all processing happens on your machine with no external data transmission</li>
+      </ul>
+
+      <h3 class="text-xl font-semibold text-gray-800">5.3 Qdrant Vector Database</h3>
+      <p class="text-gray-700 mb-6">
+        Vector embeddings are stored in Qdrant, which can be hosted locally or remotely. If using Qdrant Cloud, your data is subject to their privacy practices.
+      </p>
+
+      <h2 class="text-2xl font-bold text-gray-800">6. Data Sharing</h2>
+      <p class="text-gray-700 mb-4">
+        We do <strong>NOT</strong> share your data with third parties, except:
+      </p>
+      <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+        <li>With Google (when accessing Google Drive)</li>
+        <li>With your selected LLM provider (OpenAI or Gemini) when processing queries</li>
+        <li>With Qdrant (if using remote Qdrant Cloud)</li>
+        <li>As required by law or legal process</li>
+      </ul>
+
+      <h2 class="text-2xl font-bold text-gray-800">7. User Rights</h2>
+      <p class="text-gray-700 mb-4">
+        You have the following rights regarding your data:
+      </p>
+      <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+        <li><strong>Access:</strong> You can access your configuration and knowledge base at any time</li>
+        <li><strong>Modification:</strong> You can update your API keys and settings in the Settings page</li>
+        <li><strong>Deletion:</strong> You can reset or delete your knowledge base (vector embeddings) using the "Reset Knowledge Base" button</li>
+        <li><strong>Logout:</strong> You can disconnect from Google Drive to revoke access at any time</li>
+      </ul>
+
+      <h2 class="text-2xl font-bold text-gray-800">8. Data Retention</h2>
+      <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+        <li><strong>Configuration Data:</strong> Retained indefinitely until you manually clear it</li>
+        <li><strong>OAuth Tokens:</strong> Retained until you explicitly logout or revoke access</li>
+        <li><strong>Vector Embeddings:</strong> Retained in Qdrant until you reset the knowledge base</li>
+        <li><strong>Chat History:</strong> Not stored; each session is independent</li>
+      </ul>
+
+      <h2 class="text-2xl font-bold text-gray-800">9. Children's Privacy</h2>
+      <p class="text-gray-700 mb-6">
+        CloudDriveRAG is not intended for children under 13 years old. We do not knowingly collect information from children. If we become aware that a child has provided us with personal information, we will take steps to delete such information and terminate the child's account.
+      </p>
+
+      <h2 class="text-2xl font-bold text-gray-800">10. California Privacy Rights (CCPA)</h2>
+      <p class="text-gray-700 mb-6">
+        If you are a California resident, you have the following rights under the California Consumer Privacy Act:
+      </p>
+      <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+        <li>Right to know what personal information is collected</li>
+        <li>Right to know whether your personal information is sold or disclosed</li>
+        <li>Right to delete personal information collected</li>
+        <li>Right to opt-out of the sale or sharing of personal information</li>
+      </ul>
+
+      <h2 class="text-2xl font-bold text-gray-800">11. European Privacy Rights (GDPR)</h2>
+      <p class="text-gray-700 mb-6">
+        If you are in the European Union, you have the following rights under the General Data Protection Regulation:
+      </p>
+      <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+        <li>Right of access to your personal data</li>
+        <li>Right to rectification of inaccurate data</li>
+        <li>Right to erasure ("right to be forgotten")</li>
+        <li>Right to restrict processing</li>
+        <li>Right to data portability</li>
+        <li>Right to object to processing</li>
+      </ul>
+
+      <h2 class="text-2xl font-bold text-gray-800">12. Changes to Privacy Policy</h2>
+      <p class="text-gray-700 mb-6">
+        We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last Updated" date at the top of this page.
+      </p>
+
+      <h2 class="text-2xl font-bold text-gray-800">13. Contact Us</h2>
+      <p class="text-gray-700 mb-2">
+        If you have questions about this Privacy Policy or our privacy practices, please contact us at:
+      </p>
+      <div class="bg-gray-100 border border-gray-300 rounded-lg p-6 text-gray-700">
+        <p class="mb-2"><strong>CloudDriveRAG Privacy Inquiry</strong></p>
+        <p class="mb-2">Email: privacy@clouddrive-rag.local</p>
+        <p>Please note: This is a self-hosted application. For deployment-specific privacy questions, contact your system administrator.</p>
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-gray-300">
+        <p class="text-gray-600 text-sm">
+          This Privacy Policy is provided as-is for informational purposes. Users are responsible for understanding how their data is processed when using third-party services (Google Drive, OpenAI, Gemini, Qdrant Cloud).
+        </p>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

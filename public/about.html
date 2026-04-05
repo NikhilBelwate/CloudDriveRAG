@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About - CloudDriveRAG</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+  <nav class="bg-white border-b border-gray-200 shadow-sm">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/>
+        </svg>
+        <h1 class="text-xl font-bold text-gray-800">CloudDriveRAG</h1>
+      </div>
+      <a href="/" class="text-blue-600 hover:text-blue-700 font-medium">Back to App</a>
+    </div>
+  </nav>
+
+  <main class="max-w-6xl mx-auto px-6 py-12">
+    <!-- Hero Section -->
+    <section class="text-center mb-16">
+      <h1 class="text-5xl font-bold text-gray-900 mb-4">About CloudDriveRAG</h1>
+      <p class="text-2xl text-gray-600 mb-8">
+        A powerful open-source RAG (Retrieval-Augmented Generation) application that transforms your Google Drive documents into an intelligent knowledge base.
+      </p>
+      <div class="flex justify-center gap-4">
+        <a href="https://github.com" target="_blank" class="bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-900 font-medium transition">
+          View on GitHub
+        </a>
+        <a href="/privacy-policy.html" class="bg-blue-100 text-blue-600 px-6 py-3 rounded-lg hover:bg-blue-200 font-medium transition">
+          Privacy Policy
+        </a>
+      </div>
+    </section>
+
+    <!-- What is CloudDriveRAG -->
+    <section class="mb-16 bg-white rounded-xl shadow-sm p-8">
+      <h2 class="text-3xl font-bold text-gray-900 mb-6">What is CloudDriveRAG?</h2>
+      <p class="text-gray-700 text-lg mb-4">
+        CloudDriveRAG is a self-hosted application that enables you to:
+      </p>
+      <ul class="space-y-4 text-gray-700 text-lg mb-6">
+        <li class="flex items-start gap-4">
+          <span class="text-blue-600 font-bold text-2xl mt-1">1</span>
+          <div>
+            <strong>Connect to Google Drive:</strong> Securely authorize CloudDriveRAG to access your documents (PDFs, Excel files, Word documents)
+          </div>
+        </li>
+        <li class="flex items-start gap-4">
+          <span class="text-blue-600 font-bold text-2xl mt-1">2</span>
+          <div>
+            <strong>Ingest Documents:</strong> Extract and process text from your files, automatically chunked and converted to vector embeddings
+          </div>
+        </li>
+        <li class="flex items-start gap-4">
+          <span class="text-blue-600 font-bold text-2xl mt-1">3</span>
+          <div>
+            <strong>Build Knowledge Base:</strong> Store embeddings in Qdrant (local or remote vector database) for semantic search
+          </div>
+        </li>
+        <li class="flex items-start gap-4">
+          <span class="text-blue-600 font-bold text-2xl mt-1">4</span>
+          <div>
+            <strong>Query with AI:</strong> Ask questions about your documents and receive contextual answers powered by LLMs
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- How It Works -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold text-gray-900 mb-8">How It Works</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <!-- Step 1 -->
+        <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-8 border border-blue-200">
+          <div class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-lg mb-4">1</div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">Google Drive Connection</h3>
+          <p class="text-gray-700">
+            You authorize CloudDriveRAG to access your Google Drive using OAuth 2.0. Your password is never stored—only secure access tokens.
+          </p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-8 border border-green-200">
+          <div class="w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center font-bold text-lg mb-4">2</div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">Document Ingestion</h3>
+          <p class="text-gray-700">
+            Select documents from your Google Drive. CloudDriveRAG downloads and parses PDFs, Excel sheets, and Word documents to extract text.
+          </p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-8 border border-purple-200">
+          <div class="w-12 h-12 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold text-lg mb-4">3</div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">Embedding & Storage</h3>
+          <p class="text-gray-700">
+            Text is split into chunks, converted to vector embeddings using your chosen LLM (OpenAI, Gemini, or Ollama), and stored in Qdrant.
+          </p>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-8 border border-orange-200">
+          <div class="w-12 h-12 bg-orange-600 text-white rounded-full flex items-center justify-center font-bold text-lg mb-4">4</div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">RAG Query & Response</h3>
+          <p class="text-gray-700">
+            Ask questions in the Chat tab. CloudDriveRAG searches your knowledge base, retrieves relevant chunks, and uses an LLM to generate contextual answers.
+          </p>
+        </div>
+      </div>
+
+      <!-- Technical Flow -->
+      <div class="bg-white rounded-xl shadow-sm p-8 border border-gray-200">
+        <h3 class="text-2xl font-bold text-gray-900 mb-6">Technical Architecture</h3>
+        <div class="space-y-6">
+          <div class="bg-gray-50 rounded-lg p-4 border-l-4 border-blue-600">
+            <p class="font-mono text-sm text-gray-800">
+              <strong>User → Google Drive</strong><br>
+              OAuth2 authentication & token storage
+            </p>
+          </div>
+          <div class="text-center text-gray-400 text-2xl">↓</div>
+          <div class="bg-gray-50 rounded-lg p-4 border-l-4 border-green-600">
+            <p class="font-mono text-sm text-gray-800">
+              <strong>Document Parser</strong><br>
+              PDF: pdf-parse | Excel: xlsx | DOCX: mammoth
+            </p>
+          </div>
+          <div class="text-center text-gray-400 text-2xl">↓</div>
+          <div class="bg-gray-50 rounded-lg p-4 border-l-4 border-purple-600">
+            <p class="font-mono text-sm text-gray-800">
+              <strong>Text Chunker</strong><br>
+              Smart chunking with overlap (1000 chars, 200 overlap)
+            </p>
+          </div>
+          <div class="text-center text-gray-400 text-2xl">↓</div>
+          <div class="bg-gray-50 rounded-lg p-4 border-l-4 border-orange-600">
+            <p class="font-mono text-sm text-gray-800">
+              <strong>Embedding Generator</strong><br>
+              OpenAI (1536-dim) | Gemini (3072-dim) | Ollama (768-dim)
+            </p>
+          </div>
+          <div class="text-center text-gray-400 text-2xl">↓</div>
+          <div class="bg-gray-50 rounded-lg p-4 border-l-4 border-indigo-600">
+            <p class="font-mono text-sm text-gray-800">
+              <strong>Qdrant Vector DB</strong><br>
+              Local or remote (cloud) storage with cosine similarity search
+            </p>
+          </div>
+          <div class="text-center text-gray-400 text-2xl">↓</div>
+          <div class="bg-gray-50 rounded-lg p-4 border-l-4 border-pink-600">
+            <p class="font-mono text-sm text-gray-800">
+              <strong>RAG Pipeline</strong><br>
+              Query embedding → Search → Context assembly → LLM response
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Features -->
+    <section class="mb-16 bg-white rounded-xl shadow-sm p-8">
+      <h2 class="text-3xl font-bold text-gray-900 mb-8">Key Features</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="flex items-start gap-4">
+          <svg class="w-6 h-6 text-green-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+          </svg>
+          <div>
+            <h4 class="font-bold text-gray-900">Self-Hosted</h4>
+            <p class="text-gray-600">Run entirely on your own infrastructure—no data sent to our servers</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-4">
+          <svg class="w-6 h-6 text-green-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+          </svg>
+          <div>
+            <h4 class="font-bold text-gray-900">Multi-LLM Support</h4>
+            <p class="text-gray-600">Use OpenAI, Google Gemini, or local Ollama—switch providers easily</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-4">
+          <svg class="w-6 h-6 text-green-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+          </svg>
+          <div>
+            <h4 class="font-bold text-gray-900">Persistent Authentication</h4>
+            <p class="text-gray-600">Stay logged in across sessions—secure token storage</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-4">
+          <svg class="w-6 h-6 text-green-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+          </svg>
+          <div>
+            <h4 class="font-bold text-gray-900">Configurable Settings</h4>
+            <p class="text-gray-600">Manage API keys, Qdrant connection, and LLM provider in Settings page</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-4">
+          <svg class="w-6 h-6 text-green-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+          </svg>
+          <div>
+            <h4 class="font-bold text-gray-900">Real-Time Ingestion</h4>
+            <p class="text-gray-600">Live progress updates as documents are processed and stored</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-4">
+          <svg class="w-6 h-6 text-green-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+          </svg>
+          <div>
+            <h4 class="font-bold text-gray-900">Source Attribution</h4>
+            <p class="text-gray-600">Chat responses include source documents and relevance scores</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-4">
+          <svg class="w-6 h-6 text-green-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+          </svg>
+          <div>
+            <h4 class="font-bold text-gray-900">Open Source</h4>
+            <p class="text-gray-600">Free to use, modify, and distribute under open-source license</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technology Stack -->
+    <section class="mb-16 bg-white rounded-xl shadow-sm p-8">
+      <h2 class="text-3xl font-bold text-gray-900 mb-8">Technology Stack</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="border border-gray-200 rounded-lg p-6">
+          <h4 class="font-bold text-gray-900 mb-3">Backend</h4>
+          <ul class="space-y-2 text-gray-700">
+            <li>Node.js + Express</li>
+            <li>Google APIs (Drive, OAuth)</li>
+            <li>Qdrant Client</li>
+            <li>PDF Parse, XLSX, Mammoth</li>
+          </ul>
+        </div>
+        <div class="border border-gray-200 rounded-lg p-6">
+          <h4 class="font-bold text-gray-900 mb-3">LLM Integration</h4>
+          <ul class="space-y-2 text-gray-700">
+            <li>OpenAI SDK</li>
+            <li>Google Generative AI</li>
+            <li>Ollama</li>
+            <li>Custom RAG Pipeline</li>
+          </ul>
+        </div>
+        <div class="border border-gray-200 rounded-lg p-6">
+          <h4 class="font-bold text-gray-900 mb-3">Frontend</h4>
+          <ul class="space-y-2 text-gray-700">
+            <li>HTML5 + Vanilla JS</li>
+            <li>Tailwind CSS</li>
+            <li>Responsive Design</li>
+            <li>Server-Sent Events (SSE)</li>
+          </ul>
+        </div>
+        <div class="border border-gray-200 rounded-lg p-6">
+          <h4 class="font-bold text-gray-900 mb-3">Vector Database</h4>
+          <ul class="space-y-2 text-gray-700">
+            <li>Qdrant (Local/Cloud)</li>
+            <li>Cosine Similarity</li>
+            <li>Vector Indexing</li>
+            <li>Payload Storage</li>
+          </ul>
+        </div>
+        <div class="border border-gray-200 rounded-lg p-6">
+          <h4 class="font-bold text-gray-900 mb-3">Security</h4>
+          <ul class="space-y-2 text-gray-700">
+            <li>OAuth 2.0</li>
+            <li>Session Management</li>
+            <li>Encrypted Storage</li>
+            <li>HTTPS/TLS</li>
+          </ul>
+        </div>
+        <div class="border border-gray-200 rounded-lg p-6">
+          <h4 class="font-bold text-gray-900 mb-3">Data Handling</h4>
+          <ul class="space-y-2 text-gray-700">
+            <li>Document Parsing</li>
+            <li>Text Chunking</li>
+            <li>Embedding Generation</li>
+            <li>Vector Search</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Getting Started -->
+    <section class="mb-16 bg-blue-50 rounded-xl shadow-sm p-8 border border-blue-200">
+      <h2 class="text-3xl font-bold text-gray-900 mb-6">Getting Started</h2>
+      <div class="space-y-4 text-gray-700 text-lg">
+        <p class="flex items-start gap-4">
+          <span class="text-blue-600 font-bold text-xl">→</span>
+          <span><strong>Clone or Download:</strong> Get CloudDriveRAG from GitHub</span>
+        </p>
+        <p class="flex items-start gap-4">
+          <span class="text-blue-600 font-bold text-xl">→</span>
+          <span><strong>Configure:</strong> Copy .env.example to .env and add your credentials</span>
+        </p>
+        <p class="flex items-start gap-4">
+          <span class="text-blue-600 font-bold text-xl">→</span>
+          <span><strong>Install:</strong> Run <code class="bg-gray-200 px-2 py-1 rounded">npm install</code></span>
+        </p>
+        <p class="flex items-start gap-4">
+          <span class="text-blue-600 font-bold text-xl">→</span>
+          <span><strong>Start:</strong> Run <code class="bg-gray-200 px-2 py-1 rounded">npm start</code></span>
+        </p>
+        <p class="flex items-start gap-4">
+          <span class="text-blue-600 font-bold text-xl">→</span>
+          <span><strong>Open:</strong> Visit <code class="bg-gray-200 px-2 py-1 rounded">http://localhost:3000</code></span>
+        </p>
+        <p class="flex items-start gap-4">
+          <span class="text-blue-600 font-bold text-xl">→</span>
+          <span><strong>Configure Settings:</strong> Add API keys and Qdrant details</span>
+        </p>
+        <p class="flex items-start gap-4">
+          <span class="text-blue-600 font-bold text-xl">→</span>
+          <span><strong>Connect Drive:</strong> Authorize access to your documents</span>
+        </p>
+        <p class="flex items-start gap-4">
+          <span class="text-blue-600 font-bold text-xl">→</span>
+          <span><strong>Ingest Documents:</strong> Select and process your files</span>
+        </p>
+        <p class="flex items-start gap-4">
+          <span class="text-blue-600 font-bold text-xl">→</span>
+          <span><strong>Start Chatting:</strong> Ask questions about your documents</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- FAQs -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold text-gray-900 mb-8">Frequently Asked Questions</h2>
+      <div class="space-y-6">
+        <div class="bg-white rounded-lg border border-gray-200 p-6">
+          <h4 class="font-bold text-gray-900 mb-2">Is my data safe?</h4>
+          <p class="text-gray-700">
+            Yes. CloudDriveRAG is self-hosted on your infrastructure. Your documents never leave your control. OAuth tokens and API keys are stored locally and securely.
+          </p>
+        </div>
+        <div class="bg-white rounded-lg border border-gray-200 p-6">
+          <h4 class="font-bold text-gray-900 mb-2">Can I use it offline?</h4>
+          <p class="text-gray-700">
+            You need internet to authenticate with Google Drive initially. For chat, you can use local Ollama entirely offline, but OpenAI/Gemini require internet access.
+          </p>
+        </div>
+        <div class="bg-white rounded-lg border border-gray-200 p-6">
+          <h4 class="font-bold text-gray-900 mb-2">What file types are supported?</h4>
+          <p class="text-gray-700">
+            PDF, Excel (.xlsx, .xls), Word (.docx, .doc), and Google Docs/Sheets (exported formats).
+          </p>
+        </div>
+        <div class="bg-white rounded-lg border border-gray-200 p-6">
+          <h4 class="font-bold text-gray-900 mb-2">How much does it cost?</h4>
+          <p class="text-gray-700">
+            CloudDriveRAG itself is free (open-source). You only pay for third-party APIs you use (OpenAI embeddings/chat, Google Gemini, Qdrant Cloud if you use it).
+          </p>
+        </div>
+        <div class="bg-white rounded-lg border border-gray-200 p-6">
+          <h4 class="font-bold text-gray-900 mb-2">Can I modify the source code?</h4>
+          <p class="text-gray-700">
+            Yes! CloudDriveRAG is open-source. You can modify, extend, and redistribute it according to the license terms.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <section class="border-t border-gray-200 pt-12 text-center">
+      <p class="text-gray-600 mb-6">
+        Built with ❤️ for knowledge workers, researchers, and data enthusiasts
+      </p>
+      <div class="flex justify-center gap-6">
+        <a href="/privacy-policy.html" class="text-blue-600 hover:underline">Privacy Policy</a>
+        <a href="/terms-of-service.html" class="text-blue-600 hover:underline">Terms of Service</a>
+        <a href="https://github.com" target="_blank" class="text-blue-600 hover:underline">GitHub</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
