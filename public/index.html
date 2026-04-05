@@ -139,19 +139,21 @@
   </main>
 
   <!-- Settings Modal -->
-  <div id="settings-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-    <div class="bg-white rounded-xl shadow-xl w-full max-w-md mx-4 p-6">
-      <div class="flex items-center justify-between mb-5">
-        <h2 class="text-lg font-semibold text-gray-800">Settings</h2>
+  <div id="settings-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 overflow-y-auto">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-2xl mx-4 my-8 p-6">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-semibold text-gray-800">Settings</h2>
         <button id="settings-close" class="p-1 rounded hover:bg-gray-100">
           <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
           </svg>
         </button>
       </div>
-      <div class="space-y-4">
+
+      <form id="settings-form" class="space-y-6">
+        <!-- LLM Provider Selection -->
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">LLM Provider</label>
+          <h3 class="text-sm font-semibold text-gray-700 mb-3">LLM Provider</h3>
           <div id="provider-options" class="space-y-2">
             <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition">
               <input type="radio" name="provider" value="openai" class="text-blue-600">
@@ -165,7 +167,7 @@
               <input type="radio" name="provider" value="gemini" class="text-blue-600">
               <div>
                 <div class="font-medium text-sm">Gemini</div>
-                <div class="text-xs text-gray-500">Gemini 2.0 Flash + text-embedding-004</div>
+                <div class="text-xs text-gray-500">Gemini 2.0 Flash + gemini-embedding-001</div>
               </div>
               <span id="gemini-status" class="ml-auto text-xs px-2 py-0.5 rounded-full"></span>
             </label>
@@ -173,23 +175,84 @@
               <input type="radio" name="provider" value="ollama" class="text-blue-600">
               <div>
                 <div class="font-medium text-sm">Ollama (Local)</div>
-                <div class="text-xs text-gray-500">nomic-embed-text + configurable chat model</div>
+                <div class="text-xs text-gray-500">Configured via environment variables</div>
               </div>
               <span id="ollama-status" class="ml-auto text-xs px-2 py-0.5 rounded-full"></span>
             </label>
           </div>
         </div>
-        <button id="save-provider" class="w-full bg-blue-600 text-white py-2.5 rounded-lg hover:bg-blue-700 transition font-medium text-sm">
-          Save Settings
-        </button>
-        <div class="flex items-center gap-2">
-          <button id="disconnect-btn" class="w-full text-red-600 py-2 rounded-lg hover:bg-red-50 transition text-sm border border-red-200">
+
+        <!-- API Keys -->
+        <div class="border-t pt-6">
+          <h3 class="text-sm font-semibold text-gray-700 mb-3">API Keys</h3>
+          <div class="space-y-3">
+            <div>
+              <label for="openai-key" class="block text-sm font-medium text-gray-700 mb-1">OpenAI API Key</label>
+              <input type="password" id="openai-key" name="openai-key" placeholder="sk-..."
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <p class="text-xs text-gray-500 mt-1">Leave blank to keep existing key. Requires API key for embedding and chat.</p>
+            </div>
+            <div>
+              <label for="gemini-key" class="block text-sm font-medium text-gray-700 mb-1">Gemini API Key</label>
+              <input type="password" id="gemini-key" name="gemini-key" placeholder="AIza..."
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <p class="text-xs text-gray-500 mt-1">Leave blank to keep existing key. Requires API key for embedding and chat.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Qdrant Configuration -->
+        <div class="border-t pt-6">
+          <h3 class="text-sm font-semibold text-gray-700 mb-3">Qdrant Vector Database</h3>
+          <div class="space-y-3">
+            <div>
+              <label for="qdrant-url" class="block text-sm font-medium text-gray-700 mb-1">Qdrant URL</label>
+              <input type="text" id="qdrant-url" name="qdrant-url" placeholder="http://localhost:6333"
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <p class="text-xs text-gray-500 mt-1">Local or remote Qdrant instance URL</p>
+            </div>
+            <div>
+              <label for="qdrant-collection" class="block text-sm font-medium text-gray-700 mb-1">Collection Name</label>
+              <input type="text" id="qdrant-collection" name="qdrant-collection" placeholder="clouddrive_rag"
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <p class="text-xs text-gray-500 mt-1">Name of the vector collection in Qdrant</p>
+            </div>
+            <div>
+              <label for="qdrant-token" class="block text-sm font-medium text-gray-700 mb-1">Qdrant Token (Optional)</label>
+              <input type="password" id="qdrant-token" name="qdrant-token" placeholder="Leave blank if not using authentication"
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <p class="text-xs text-gray-500 mt-1">Authentication token for Qdrant Cloud or secured local instance</p>
+            </div>
+            <button type="button" id="test-qdrant-btn" class="text-blue-600 text-sm hover:text-blue-700 font-medium">
+              Test Connection
+            </button>
+            <div id="qdrant-test-result" class="hidden text-sm p-2 rounded-lg"></div>
+          </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="border-t pt-6 space-y-3">
+          <button type="submit" class="w-full bg-blue-600 text-white py-2.5 rounded-lg hover:bg-blue-700 transition font-medium text-sm">
+            Save All Settings
+          </button>
+          <button type="button" id="disconnect-btn" class="w-full text-red-600 py-2 rounded-lg hover:bg-red-50 transition text-sm border border-red-200">
             Disconnect Google Drive
           </button>
         </div>
-      </div>
+      </form>
     </div>
   </div>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-gray-200 px-6 py-4 mt-auto">
+    <div class="flex items-center justify-center gap-6 text-sm text-gray-600">
+      <a href="/about.html" class="hover:text-blue-600 transition">About</a>
+      <span class="text-gray-300">•</span>
+      <a href="/privacy-policy.html" class="hover:text-blue-600 transition">Privacy Policy</a>
+      <span class="text-gray-300">•</span>
+      <a href="/terms-of-service.html" class="hover:text-blue-600 transition">Terms of Service</a>
+    </div>
+  </footer>
 
   <script src="/js/app.js"></script>
   <script src="/js/settings.js"></script>
