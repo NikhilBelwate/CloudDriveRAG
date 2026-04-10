@@ -71,7 +71,7 @@ CloudDriveRAG enables you to:
 
 7. **Open in browser**
    ```
-   http://localhost:3000
+   http://localhost:3000  
    ```
 
 ## Configuration
@@ -129,7 +129,7 @@ Settings are saved locally in `data/settings.json` and persist across sessions.
 
 ### Google Gemini
 - **Embedding Model**: gemini-embedding-001 (3072 dimensions)
-- **Chat Model**: gemini-2.0-flash
+- **Chat Model**: gemini-2.5-flash
 - **Cost**: Pay per API usage
 - **API Key**: Required in Settings
 
